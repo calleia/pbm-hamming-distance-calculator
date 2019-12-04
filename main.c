@@ -114,12 +114,33 @@ int* load_pbm_image(char* filename) {
     }
 }
 
+unsigned long calculate_hamming_distance(int* pFirstImage, int* pSecondImage) {
+    unsigned long differentPixelCount;
+    unsigned long equalPixelCount;
+    unsigned long totalPixelCount;
+
+    differentPixelCount = 0;
+    equalPixelCount = 0;
+    totalPixelCount = width * height;
+
+    for (int i = 0; i < totalPixelCount; i++) {
+        if (pFirstImage[i] == pSecondImage[i]) {
+            equalPixelCount++;
+        } else {
+            differentPixelCount++;
+        }
+    }
+
+    return differentPixelCount;
+}
+
 int main(int argc, char** argv) {
     if (argc == 3) {
         int* pFirstImage = load_pbm_image(argv[1]);
         int* pSecondImage = load_pbm_image(argv[2]);
 
-        // TODO: calculate hamming distance
+        unsigned long distance = calculate_hamming_distance(pFirstImage, pSecondImage);
+        fprintf(stdout, "%ld\n", distance);
     } else {
         fprintf(stderr, "Invalid number of arguments.");
     }
